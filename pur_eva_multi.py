@@ -8,7 +8,7 @@ import time
 
 pygame.init()
 
-display_width = 800
+display_width = 500
 display_height = 500
 
 black = (0,0,0)
@@ -17,11 +17,11 @@ red = (255,0,0)
 
 ####  These are the position of obstacles if any
 obstacle = []
-obstacle.append([80,250,20])
-obstacle.append([170,300,20])
-obstacle.append([340,50,20])
-obstacle.append([340,420,20])
-obstacle.append([250,250,20])
+#obstacle.append([80,250,20])
+#obstacle.append([170,300,20])
+#obstacle.append([340,50,20])
+#obstacle.append([340,420,20])
+obstacle.append([250,250,0])
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 gameDisplay.fill(white)
@@ -37,17 +37,20 @@ play2 = pygame.transform.scale(play2,(10,10))
 
 ####  These are the initial position of points with the last point as the evader
 
-#p1 = [227.67973737672207, 262.73345558739913]
-#p2 = [440.64800572430505, 487.0639978472899]
-#p3 = [347.99862199252385, 420.9475203272905]
-#p4 = [408.59779158228076, 383.9155481356629]
-#p5 = [446.0403473916066, 459.0008142875368]
+p1 = [52.759508790094905, 277.650497039016]
+p2 = [142.71605203993622, 115.698046901077]
+p3 = [95.54952540345857, 131.83547700803413]
+p4 = [417.769424996615, 271.97305455541505]
+p5 = [313.0646713125531, 292.35377994069603]
 
-p1 = [random.randint(0,display_width),random.randint(0,display_height)]
-p2 = [random.randint(0,display_width),random.randint(0,display_height)]
-p3 = [random.randint(0,display_width),random.randint(0,display_height)]
-p4 = [random.randint(0,display_width),random.randint(0,display_height)]
-p5 = [random.randint(0,display_width),random.randint(0,display_height)]
+
+
+
+#p1 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p2 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p3 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p4 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p5 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p6 = [random.randint(0,500),random.randint(0,500)]
 
 num_play = 5
