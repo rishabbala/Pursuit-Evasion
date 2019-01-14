@@ -4,7 +4,7 @@ import turtle
 import time
 
 
-########    Initial implementation of the pursuer evader game with turtle sim. Convergence to a single line is observed  ########
+########    Initial implementation of area based pursuer evader game with turtle sim. Convergence to a single line is observed  ########
 
  
 turtle.setup(400,500)
