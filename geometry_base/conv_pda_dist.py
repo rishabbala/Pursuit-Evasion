@@ -9,6 +9,10 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
+
+########    Distributed Neighbour basaed Implementation of J=peri*dist/area. Good results    ########
+
+
 pygame.init()
 
 display_width = 570
