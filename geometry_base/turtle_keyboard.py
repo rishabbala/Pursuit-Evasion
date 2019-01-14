@@ -2,6 +2,10 @@ import numpy
 from math import *
 import turtle
 import time
+
+
+########    Initial implementation of the pursuer evader game with turtle sim. Convergence to a single line is observed  ########
+
  
 turtle.setup(400,500)
 wn = turtle.Screen() 
