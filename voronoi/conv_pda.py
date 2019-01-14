@@ -8,6 +8,10 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
+
+########    Implementation of J=peri*(dist)/area. Not best functioning    ########
+
+
 pygame.init()
 
 plt.axis([0, 500, 0, 500])
