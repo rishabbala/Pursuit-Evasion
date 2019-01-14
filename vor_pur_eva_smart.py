@@ -9,6 +9,10 @@ from matplotlib import animation
 import decimal
 from shapely.wkt import loads as load_wkt
 
+
+########    Base version of the voronoi based two player pursuit evasion game where the evader moves based on both resultant
+########    field by pursuers as well as based on the centroid of its voronoi (commented section)
+
 pygame.init()
 
 display_width = 500
