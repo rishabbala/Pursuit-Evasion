@@ -9,6 +9,10 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
+
+########    Global Implementation of J=peri*(k*dist + (1-k)*centroid)/area. Not best functioning    ########
+
+
 pygame.init()
 
 display_width = 570
