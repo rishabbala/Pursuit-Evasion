@@ -4,6 +4,9 @@ from math import *
 import numpy as np
 import random
 
+########    Implementation of Angle Based Constraints. Not best functioning    ########
+
+
 pygame.init()
 
 display_width = 500
