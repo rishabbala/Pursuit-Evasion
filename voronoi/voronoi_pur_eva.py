@@ -9,6 +9,10 @@ from matplotlib import animation
 import decimal
 from shapely.wkt import loads as load_wkt
 
+
+########  Base version of voronoi based two player pursuer evader game #######
+
+
 pygame.init()
 
 display_width = 500
