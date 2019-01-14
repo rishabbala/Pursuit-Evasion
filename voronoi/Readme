@@ -1,0 +1,1 @@
+This folder contains the scripts for voronoi based pursuit evasion problem. The number of pursuers can be changed, but only one evader is present. The obstacles can be added if required, and size of arena can also be changed
