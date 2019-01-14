@@ -8,6 +8,9 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
+########    Implementation of area minimisation. Becomes st line    ########
+
+
 pygame.init()
 
 plt.axis([0, 500, 0, 500])
