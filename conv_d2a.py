@@ -8,6 +8,9 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
+########    Implementation of J=dist^2/area. Not best    ########
+
+
 pygame.init()
 
 plt.axis([0, 500, 0, 500])
