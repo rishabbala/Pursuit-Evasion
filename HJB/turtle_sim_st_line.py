@@ -4,6 +4,9 @@ wn = turtle.Screen()
 wn.bgcolor("lightgreen")        # set the window background color
 
 
+########    Basic implementation of tutrle sim in python    ########
+
+
 tess1 = turtle.Turtle()
 tess2 = turtle.Turtle()
 tess3 = turtle.Turtle()
