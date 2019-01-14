@@ -9,6 +9,8 @@ from matplotlib import animation
 import decimal
 from shapely.wkt import loads as load_wkt
 
+########    Apollonius circles drawn, no control strategy implemented.    ########
+
 pygame.init()
 
 display_width = 1000
