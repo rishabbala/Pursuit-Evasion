@@ -10,7 +10,7 @@ import time
 import csv
 
 
-########    Global Implementation of J=peri*(k*dist + (1-k)*centroid)/area. Not best functioning    ########
+########    Global Implementation of J=peri*(k*dist + (1-k)*centroid)/area. Good results    ########
 
 
 pygame.init()
