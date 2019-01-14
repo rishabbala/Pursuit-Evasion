@@ -1,1 +1,0 @@
-Implementation of the Hamiltonian-Jacobi-Bellman equation to the pursuit evasion game in an unbounded environment with equal velocities for all players. We observe the shortcomings are convergence to a single line and inability to capture the evader. Hence other methods explored
