@@ -2,6 +2,9 @@ import numpy
 from math import *
 import turtle
 
+########    Initial implementation of area based pursuit evasion game. Converges to straight line.    ########
+
+
 wn = turtle.Screen() #320 x ** 280 y
 wn.bgcolor("lightgreen") 
 tess1 = turtle.Turtle()
