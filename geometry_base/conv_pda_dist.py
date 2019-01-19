@@ -9,10 +9,6 @@ from matplotlib.legend_handler import HandlerLine2D
 import time
 import csv
 
-
-########    Distributed Neighbour basaed Implementation of J=peri*dist/area. Good results    ########
-
-
 pygame.init()
 
 display_width = 570
@@ -36,11 +32,12 @@ play1 = pygame.transform.scale(play1,(12,12))
 play2 = pygame.image.load('/home/rishab/Downloads/images.png')
 play2 = pygame.transform.scale(play2,(12,12))
 
-p1 = [112.53610604299719, 136.84415064453088]
-p2 = [69.42804658094389, 164.9037566733044]
-p3 = [330.08289875623325, 461.39865437245993]
-p4 = [52.7087512043334, 19.70545852490132]
-p5 = [217.7464959166333, 430.0326656835838]
+
+p1 = [129.98191062626807, 25.189344981506917]
+p2 = [188.99861728752686, 175.94743087358057]
+p3 = [170.98845644533068, 31.84849470080486]
+p4 = [384.83889902363086, 101.98693792885516]
+#p5 = [217.7464959166333, 430.0326656835838]
 
 #p1 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p2 = [random.randint(0,display_width),random.randint(0,display_height)]
@@ -48,6 +45,11 @@ p5 = [217.7464959166333, 430.0326656835838]
 #p4 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p5 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p6 = [random.randint(0,display_width),random.randint(0,display_height)]
+
+#p1 = [129.98191062626807, 25.189344981506917]
+#p2 = [188.99861728752686, 175.94743087358057]
+#p3 = [170.98845644533068, 31.84849470080486]
+#p4 = [384.83889902363086, 101.98693792885516]
 
 #obst = []
 obstacle = []
@@ -63,7 +65,7 @@ obstacle = []
 #obst.append([310,display_height-220,0])
 obstacle.append([70,350,0])
 
-num_play=5
+num_play=4
 
 rotation = np.zeros((num_play,4))
 
@@ -116,7 +118,7 @@ while not crashed:
 	points.append(p2)
 	points.append(p3)
 	points.append(p4)
-	points.append(p5)
+	#points.append(p5)
 	#points.append(p6)
 	gameDisplay.fill(white)
 	pos = 0
@@ -146,39 +148,27 @@ while not crashed:
 	n[num_play-1] = n[0]
 	n[0] = temp
 	n.sort()
-	print("ASAS",n.sort())
+	#print("ASAS",n.sort())
 	area=0
 	peri=0
 	neg=0
 	for i in range(num_play):
 		if i!=num_play-1:
-			#peri+=dist(points[neigh[i][1]],points[neigh[i+1][1]])
-			#area+=points[neigh[i][1]][0]*points[neigh[i+1][1]][1] - points[neigh[i+1][1]][0]*points[neigh[i][1]][1]
 			pygame.draw.line(gameDisplay, black, (points[n[i][1]][0],points[n[i][1]][1]), (points[n[i+1][1]][0],points[n[i+1][1]][1]), 3)
-			#peri+=dist(points[n[i][1]],points[n[i+1][1]])
 		else:
-			#peri+=dist(points[n[i][1]],points[n[0][1]])
-			#area+=points[n[i][1]][0]*points[neigh[0][1]][1] - points[neigh[0][1]][0]*points[neigh[i][1]][1]
 			pygame.draw.line(gameDisplay, black, (points[n[i][1]][0],points[n[i][1]][1]), (points[n[0][1]][0],points[n[0][1]][1]), 3)	#plot fig
-			#peri+=dist(points[n[i][1]],points[n[0][1]])
-	#print(neigh)
 
 	for i in range(num_play):
 		if n[i][1]==num_play-1:
 			pos = i
-			print("P",pos)
+			#print("P",pos)
 	neigh.append(n[pos])
 	for i in range(pos+1,num_play):
 		neigh.append(n[i])
 	for i in range(0,pos):
 		neigh.append(n[i])
-	print("n",n)
-	print("NEIGH",neigh)
-	#are.append(area)
-	#per.append(peri)
-	#print("PERI",peri)
-	#print("AREA",area)
-
+	#print("n",n)
+	#print("NEIGH",neigh)
 
 	for i in range(num_play-1):
 		if dist(points[i],points[num_play-1])<15:
@@ -192,36 +182,25 @@ while not crashed:
 		pygame.draw.circle(gameDisplay, (0,255,0), (int(obstacle[i][0]),int(obstacle[i][1])), int(obstacle[i][2]))
 
 
-
-	#print(points[neigh[1][1]])
-
 	for i in range(num_play):
 
 		if neigh[i][1] == num_play-1:
 			phi=0
 			pass
 		else:
-			#k = 0.8
-
 			if i==1:
-				print("1")
 				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[num_play-1][1]-points[neigh[i+1][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i][1]][1]-points[num_play-1][1]*points[neigh[i][1]][0])
 				area = area/2
 				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				#centx = (points[neigh[i][1]][0]+points[neigh[i+1][1]][0]+points[num_play-1][0])/3
-				#centy = (points[neigh[i][1]][1]+points[neigh[i+1][1]][1]+points[num_play-1][1])/3
-				print("AREA",area)
-				print("PERO",peri)
-				#pygame.draw.circle(gameDisplay, (0,255,0), (int(centx),int(centy)), 5)
-				#dc = dist([centx,centy],points[num_play-1])
+				#print("AREA",area)
+				#print("PERO",peri)
 				d = dist(points[neigh[i][1]],points[num_play-1])
-				#f = k*d + (1-k)*dc
 				dn = dist(points[neigh[i][1]],points[neigh[i+1][1]])
 				dp = dist(points[neigh[i][1]],points[neigh[i-1][1]])
 				if area>0:
 					nu = (points[neigh[i][1]][1]-points[num_play-1][1])/d**2 + ((points[neigh[i][1]][1]-points[neigh[i+1][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri) + (points[neigh[i+1][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
 					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[neigh[i+1][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) - (points[neigh[i+1][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
-					print("HERE")
+					#print("HERE")
 				else:
 					nu = (points[neigh[i][1]][1]-points[num_play-1][1])/d**2 + ((points[neigh[i][1]][1]-points[neigh[i+1][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri) - (points[neigh[i+1][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
 					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[neigh[i+1][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) + (points[neigh[i+1][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
@@ -230,45 +209,32 @@ while not crashed:
 
 
 			elif i==num_play-1:
-				print("2")
+				#print("2")
 				area = (points[neigh[i][1]][0]*points[num_play-1][1]-points[neigh[i][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i-1][1]][1]-points[num_play-1][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
 				area = area/2
 				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				centx = (points[neigh[i][1]][0]+points[neigh[i-1][1]][0]+points[num_play-1][0])/3
-				centy = (points[neigh[i][1]][1]+points[neigh[i-1][1]][1]+points[num_play-1][1])/3
 				print("AREA",area)
-				print("PERO",peri)
-				#pygame.draw.circle(gameDisplay, (0,255,0), (int(centx),int(centy)), 5)
-				dc = dist([centx,centy],points[num_play-1])
+				#print("PERO",peri)
 				d = dist(points[neigh[i][1]],points[num_play-1])
-				#f = k*d + (1-k)*dc
 				dn = dist(points[neigh[i][1]],points[neigh[0][1]])
 				dp = dist(points[neigh[i][1]],points[neigh[i-1][1]])
 				if area>0:
 					nu = (points[neigh[i][1]][1]-points[num_play-1][1])/d**2 + ((points[neigh[i][1]][1]-points[neigh[0][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri) + (points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
 					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[neigh[0][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) - (points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
-					print("HERE")
+					#print("HERE")
 				else:
-					nu = (points[neigh[i][1]][1]-points[num_play-1][1])/d**2 + ((points[neigh[i][1]][1]-points[num_play-1][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri) - (points[num_play-1][0]-points[neigh[i-1][1]][0])/(2*abs(area))
-					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[num_play-1][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) + (points[num_play-1][1]-points[neigh[i-1][1]][1])/(2*abs(area))
+					nu = (points[neigh[i][1]][1]-points[num_play-1][1])/d**2 + ((points[neigh[i][1]][1]-points[neigh[0][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri) - (points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
+					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[neigh[0][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) + (points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
 				beta = atan2(nu,de)
 
 
 
-
-
-
 			else:
-				print("3")
+				#print("3")
 				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[num_play-1][1]-points[neigh[i+1][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i][1]][1]-points[num_play-1][1]*points[neigh[i][1]][0])
 				area = area/2
 				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				centx = (points[neigh[i][1]][0]+points[neigh[i+1][1]][0]+points[num_play-1][0])/3
-				centy = (points[neigh[i][1]][1]+points[neigh[i+1][1]][1]+points[num_play-1][1])/3
-				#pygame.draw.circle(gameDisplay, (0,255,0), (int(centx),int(centy)), 5)
-				dc = dist([centx,centy],points[num_play-1])
 				d = dist(points[neigh[i][1]],points[num_play-1])
-				#f = k*d + (1-k)*dc
 				dn = dist(points[neigh[i][1]],points[neigh[i+1][1]])
 				dp = dist(points[neigh[i][1]],points[num_play-1])
 				if area>0:
@@ -283,12 +249,7 @@ while not crashed:
 				area = (points[neigh[i][1]][0]*points[num_play-1][1]-points[neigh[i][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i-1][1]][1]-points[num_play-1][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
 				area = area/2
 				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				centx = (points[neigh[i][1]][0]+points[neigh[i-1][1]][0]+points[num_play-1][0])/3
-				centy = (points[neigh[i][1]][1]+points[neigh[i-1][1]][1]+points[num_play-1][1])/3
-				#pygame.draw.circle(gameDisplay, (0,255,0), (int(centx),int(centy)), 5)
-				dc = dist([centx,centy],points[num_play-1])
 				d = dist(points[neigh[i][1]],points[num_play-1])
-				#f = k*d + (1-k)*dc
 				dn = dist(points[neigh[i][1]],points[num_play-1])
 				dp = dist(points[neigh[i][1]],points[neigh[i-1][1]])
 				if area>0:
@@ -299,16 +260,13 @@ while not crashed:
 					de = (points[neigh[i][1]][0]-points[num_play-1][0])/d**2 + ((points[neigh[i][1]][0]-points[num_play-1][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri) + (points[num_play-1][1]-points[neigh[i-1][1]][1])/(2*abs(area))
 				beta2 = atan2(nu,de)
 				#two triangles
-				print("BETAS1,2",beta1,beta2)
+				#print("BETAS1,2",beta1,beta2)
 				beta = (beta1+beta2)/2
 				if dist([points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)],points[num_play-1])>dist([points[neigh[i][1]][0]-50*cos(beta+np.pi),points[neigh[i][1]][1]-50*sin(beta+np.pi)],points[num_play-1]):
 					beta = np.pi+beta
-				#pygame.draw.line(gameDisplay, (0,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta1),points[neigh[i][1]][1]-50*sin(beta1)), 3)
-				#pygame.draw.line(gameDisplay, (0,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta2),points[neigh[i][1]][1]-50*sin(beta2)), 3)
 			if abs(ang(points[n[0][1]],points[neigh[i][1]])-ang(points[n[0][1]],points[num_play-1]))<0.1:
 				beta = ang(points[neigh[i][1]],points[num_play-1])
-			#pygame.draw.line(gameDisplay, (255,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
-			print("BETA",beta)
+			#print("BETA",beta)
 			if (points[neigh[i][1]][0]<=0 and -cos(beta)<0) or (points[neigh[i][1]][0]>=display_width and -cos(beta)>0) :
 				if -sin(beta)>0:
 					beta = -np.pi/2-epsilon
@@ -319,7 +277,6 @@ while not crashed:
 					beta = np.pi-epsilon
 				else:
 					beta = 0+epsilon
-			#pygame.draw.line(gameDisplay, (0,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
 
 			ang1 = abs(-(ang(points[num_play-1],points[0]))+(ang(points[num_play-1],points[1])))
 			while ang1>np.pi:
@@ -391,26 +348,10 @@ while not crashed:
 
 			"""
 
-
+			print(neigh[i][1],beta)
+			pygame.draw.line(gameDisplay, (255,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
 			points[neigh[i][1]][0]-=cos(beta)
 			points[neigh[i][1]][1]-=sin(beta)
-
-			if points[num_play-1] == points[neigh[0][1]]:
-				print("TRUE")
-
-			#phi = k*theta2 + (1-k)*theta3
-
-
-
-			#if neigh[i][1]==0:
-			#	pos1.append([points[neigh[i][1]][0],-points[neigh[i][1]][1]+display_height])
-			#if neigh[i][1]==1:
-			#	pos2.append([points[neigh[i][1]][0],-points[neigh[i][1]][1]+display_height])
-			#if neigh[i][1]==2:
-			#	pos3.append([points[neigh[i][1]][0],-points[neigh[i][1]][1]+display_height])
-			#if neigh[i][1]==3:
-			#	pos4.append([points[neigh[i][1]][0],-points[neigh[i][1]][1]+display_height])
-
 
 	field_1=0
 	field_2=0
@@ -431,9 +372,6 @@ while not crashed:
 	field_y = field_2/sqrt(field_1**2 + field_2**2)
 	points[num_play-1][0]+=field_x
 	points[num_play-1][1]+=field_y
-	#pos5.append([points[num_play-1][0],-points[num_play-1][1]+display_height])
-
-	#print("PHI",phi)
 
 	for i in range(num_play-1):
 		car(play1,points[i][0],points[i][1])
@@ -442,7 +380,7 @@ while not crashed:
 	pygame.display.update()
 
 	clock.tick(20)
-	print("POINTS",points)
+	#print("POINTS",points)
 	print("EPOCH",epoch)
 	print("--- %s seconds ---" % (time.time() - start_time))
 	#break
