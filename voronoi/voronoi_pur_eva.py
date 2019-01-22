@@ -9,10 +9,6 @@ from matplotlib import animation
 import decimal
 from shapely.wkt import loads as load_wkt
 
-
-########  Base version of voronoi based two player pursuer evader game #######
-
-
 pygame.init()
 
 display_width = 500
@@ -42,9 +38,14 @@ play2 = pygame.transform.scale(play2,(10,10))
 play3 = pygame.image.load('/home/rishab/Downloads/images.jpeg')
 play3 = pygame.transform.scale(play3,(10,10))
 
-p1 = [340,199]
-p2 = [320,471]
-p3 = [250,407]
+#p1 = [340,199]
+#p2 = [320,471]
+#p3 = [250,407]
+
+p1 = [random.randint(0,display_width),random.randint(0,display_height)]
+p2 = [random.randint(0,display_width),random.randint(0,display_height)]
+p3 = [random.randint(0,display_width),random.randint(0,display_height)]
+
 l1 = []
 L1 = []
 phi = []
@@ -106,7 +107,7 @@ while not crashed:
 	pygame.draw.line(gameDisplay, red, (p1[0],p1[1]), (p3[0],p3[1]), 3)
 	pygame.draw.line(gameDisplay, red, (p2[0],p2[1]), (p3[0],p3[1]), 3)
 	pygame.draw.line(gameDisplay, red, (p2[0],p2[1]), (p1[0],p1[1]), 3)
-	pygame.draw.circle(gameDisplay, (100,120,160), (250,250), 50)
+	#pygame.draw.circle(gameDisplay, (100,120,160), (250,250), 50)
 
 
 
@@ -485,6 +486,7 @@ while not crashed:
 	pygame.draw.circle(gameDisplay, (85,221,126), (int(centroid[0]),int(centroid[1])), 10)
 
 
+	"""
 	for i in range(2):
 		obst_ang = ang([250,250],points[i+1])
 		if dist(points[i+1],[250-50*cos(obst_ang),250-50*sin(obst_ang)])<2 and dist([points[i+1][0]+u[i][0],points[i+1][1]+u[i][1]],[250-50*cos(obst_ang),250-50*sin(obst_ang)])<2:
@@ -507,12 +509,13 @@ while not crashed:
 				elif dist([x,y],p3)-dist(points[i+1],p3)<0:
 					points[i+1][0] = p3[0]-cos(obst_ang+np.pi/2)
 					points[i+1][1] = p3[1]-sin(obst_ang+np.pi/2)
-		else:
-			points[i+1][0]+=u[i][0]
-			points[i+1][1]+=u[i][1]
-	p1 = points[1]
-	p2 = points[2]
 	"""
+	for i in range(2):
+		points[i+1][0]+=u[i][0]
+		points[i+1][1]+=u[i][1]
+		p1 = points[1]
+		p2 = points[2]
+	
 
 	field = 0
 	field_ang = ang([250,250],p3)
@@ -567,8 +570,8 @@ while not crashed:
 	print("V",v)
 	print("U",u)
 	for t in range (len(cent)):
-		pygame.draw.circle(gameDisplay, (180,21,146), (int(cent[t][0]),int(cent[t][1])), 20)
-	"""
+		pygame.draw.circle(gameDisplay, (180,21,146), (int(cent[t][0]),int(cent[t][1])), 5)
+	
 
 	#p3[0] = p3[0]-cos(cen_ang)
 	#p3[1] = p3[1]-sin(cen_ang)
