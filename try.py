@@ -33,19 +33,19 @@ play2 = pygame.image.load('/home/rishab/Downloads/images.png')
 play2 = pygame.transform.scale(play2,(12,12))
 
 
-#p1 = [569.0055198944414, 55.89507469491036]
-#p2 = [159.03440085733322, 410.73996481837804]
-#p3 = [352.00038811981227, 336.02785837374245]
-#p4 = [287.18608147332566, 463.4190209711734]
-#p5 = [421.0210770511956, 273.79577007980174]
+#p1 = [206.68920211838824, 104.27543085905542]
+#p2 = [496.4703735095169, 379.1175325719638]
+#p3 = [268.52246762857413, 497.1473408787258]
+#p4 = [543.4032461853177, 38.802424379404115]
+#p5 = [165.04459640629858, 337.704696811493]
 #p6 = [531.0114361949285, 137.15080319394033]
 
 p1 = [random.randint(0,display_width),random.randint(0,display_height)]
 p2 = [random.randint(0,display_width),random.randint(0,display_height)]
 p3 = [random.randint(0,display_width),random.randint(0,display_height)]
 p4 = [random.randint(0,display_width),random.randint(0,display_height)]
-p5 = [random.randint(0,display_width),random.randint(0,display_height)]
-p6 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p5 = [random.randint(0,display_width),random.randint(0,display_height)]
+#p6 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p7 = [random.randint(0,display_width),random.randint(0,display_height)]
 #p8 = [random.randint(0,display_width),random.randint(0,display_height)]
 
@@ -68,7 +68,7 @@ obstacle = []
 #obst.append([310,display_height-220,0])
 obstacle.append([70,350,0])
 
-num_play=6
+num_play=4
 
 rotation = np.zeros((num_play,4))
 
@@ -107,6 +107,7 @@ epoch=0
 #pos4.append(p4)
 #pos5.append(p5)
 
+prev = np.zeros(num_play)
 start_time = time.time()
 while not crashed:
 	epoch+=1
@@ -121,8 +122,8 @@ while not crashed:
 	points.append(p2)
 	points.append(p3)
 	points.append(p4)
-	points.append(p5)
-	points.append(p6)
+	#points.append(p5)
+	#points.append(p6)
 	#points.append(p7)
 	#points.append(p8)
 	gameDisplay.fill(white)
@@ -177,7 +178,7 @@ while not crashed:
 	print("NEIGH",neigh)
 
 	for i in range(num_play-1):
-		if dist(points[i],points[num_play-1])<15:
+		if dist(points[i],points[num_play-1])<10:
 			print("caught")
 			end = (time.time() - start_time)
 			crashed=True
@@ -193,188 +194,310 @@ while not crashed:
 		if neigh[i][1] == num_play-1:
 			pass
 		else:
+			nu1=0
+			de1=0
+			nu=0
+			de=0
 			count = 0
 			for j in range(num_play):
-				if dist(points[neigh[i][1]],points[neigh[j][1]])<max and j!=pos and j!=i:
+				if dist(points[neigh[i][1]],points[neigh[j][1]])<max and j!=0 and j!=i:
 					max = dist(points[neigh[i][1]],points[neigh[j][1]])
 					pos2 = j
 			print(i,pos2,"wewe")
 			if i==1:
-				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[num_play-1][1]-points[neigh[i+1][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i][1]][1]-points[num_play-1][1]*points[neigh[i][1]][0])
+				print("POS",pos2)
+				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[neigh[0][1]][1]-points[neigh[i+1][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[i][1]][1]-points[neigh[0][1]][1]*points[neigh[i][1]][0])
 				area = area/2
-				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][0]-points[neigh[i+1][1]][0]) + points[neigh[i][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[i+1][1]][0]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2)
-				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[i+1][1]][1]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2))
-				a = points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]-points[neigh[i-1][1]][0]) + points[neigh[i-1][1]][0]*points[neigh[i+1][1]][1] - points[neigh[i-1][1]][1]*points[neigh[i+1][1]][0]
+				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) + points[neigh[i][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[i+1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2)
+				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[i+1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2))
+				a = points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]) + points[neigh[0][1]][0]*points[neigh[i+1][1]][1] - points[neigh[0][1]][1]*points[neigh[i+1][1]][0]
 				xc = -bx/(2*a)
 				yc = -by/(2*a)
-				rad = dist([xc,yc],points[num_play-1])
-				d = dist(points[neigh[i][1]],points[num_play-1])
+				rad = dist([xc,yc],points[neigh[0][1]])
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
 				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
-				d3 = dist([centx,centy],points[num_play-1])
+				d3 = dist([centx,centy],points[neigh[i][1]])
 				dn = dist(points[neigh[i][1]],points[neigh[i+1][1]])
 				dp = dist(points[neigh[i][1]],points[neigh[0][1]])
-				pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
-				#print("REAL",(points[neigh[i][1]][1]-points[num_play-1][1]),(points[neigh[i][1]][0]-points[num_play-1][0]))
+				centx = (points[neigh[i][1]][0]+points[neigh[i+1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[i+1][1]][1]+points[neigh[0][1]][1])/3
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#print("REAL",(points[neigh[i][1]][1]-points[neigh[0][1]][1]),(points[neigh[i][1]][0]-points[neigh[0][1]][0]))
 				dc = rad
 
-				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*bx*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/(2*a)**2
-				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) -2*by*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/(2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					print("MAKING Z")
-					nu1 = 0
-				nu = 0.3*nu1/dc**2 + 0.65*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0.05*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*bx*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2)
+				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) -2*by*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2))
 
-				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*bx*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/(2*a)**2)
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[i+1][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[0][1]][1])/dp)/(peri)
+
+				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*bx*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/((2*a)**2))
 				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) +2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*by*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/((2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					de1 = 0
-				de = 0.3*de1/dc**2 + 0.65*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0.05*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
 
-				#if area>0:
-				#	nu = nu + 0.05*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
-				#	de = de - 0.05*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
-				#else:
-				#	nu = nu - 0.05*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
-				#	de = de + 0.05*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
-				beta = atan2(nu,de)
-				if beta<0:
-					beta+=2*np.pi
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[i+1][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[0][1]][0])/dp)/(peri)
+
+				if area>0:
+					nu = nu + 0*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
+				beta1 = atan2(nu,de)
+
+
+				print("POS",pos2)
+				area = (points[neigh[i][1]][0]*points[neigh[num_play-1][1]][1]-points[neigh[i][1]][1]*points[neigh[num_play-1][1]][0]) + (points[neigh[num_play-1][1]][0]*points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[i][1]][1]-points[neigh[0][1]][1]*points[neigh[i][1]][0])
+				area = area/2
+				peri = dist(points[neigh[i][1]],points[neigh[num_play-1][1]])+dist(points[neigh[num_play-1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][0]-points[neigh[num_play-1][1]][0]) + points[neigh[i][1]][0]*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[num_play-1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][0]*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2)
+				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[num_play-1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][1]*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2))
+				a = points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[num_play-1][1]][0]-points[neigh[0][1]][0]) + points[neigh[0][1]][0]*points[neigh[num_play-1][1]][1] - points[neigh[0][1]][1]*points[neigh[num_play-1][1]][0]
+				xc = -bx/(2*a)
+				yc = -by/(2*a)
+				rad = dist([xc,yc],points[neigh[0][1]])
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
+				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
+				d3 = dist([centx,centy],points[neigh[i][1]])
+				dn = dist(points[neigh[i][1]],points[neigh[num_play-1][1]])
+				dp = dist(points[neigh[i][1]],points[neigh[0][1]])
+				centx = (points[neigh[i][1]][0]+points[neigh[num_play-1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[num_play-1][1]][1]+points[neigh[0][1]][1])/3
+				pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#print("REAL",(points[neigh[i][1]][1]-points[neigh[0][1]][1]),(points[neigh[i][1]][0]-points[neigh[0][1]][0]))
+				dc = rad
+
+				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]) -2*a*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*bx*(points[neigh[num_play-1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2)
+				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[num_play-1][1]][0]) -2*by*(points[neigh[num_play-1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2))
+
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[num_play-1][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[0][1]][1])/dp)/(peri)
+
+				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]) -2*bx*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]))/((2*a)**2))
+				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][0]-points[neigh[num_play-1][1]][0]) +2*a*(points[neigh[num_play-1][1]][0]**2+points[neigh[num_play-1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*by*(points[neigh[0][1]][1]-points[neigh[num_play-1][1]][1]))/((2*a)**2)
+
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[num_play-1][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[0][1]][0])/dp)/(peri)
+
+				if area>0:
+					nu = nu + 0*(points[neigh[num_play-1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[num_play-1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[num_play-1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[num_play-1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
+				beta2 = atan2(nu,de)
+				beta3 = (beta1+beta2)/2
+				beta = (beta3+prev[i])/2
+				prev[i] = beta3
+
+
+				pygame.draw.line(gameDisplay, (0,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
+
+				#print("NUS",nu1,de1,beta)
+				#if beta<0:
+				#	beta+=2*np.pi
+				#if beta>2*np.pi:
+				#	beta-=2*np.pi
 
 			elif i==num_play-1:
-				area = (points[neigh[i][1]][0]*points[num_play-1][1]-points[neigh[i][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i-1][1]][1]-points[num_play-1][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
+				area = (points[neigh[i][1]][0]*points[neigh[0][1]][1]-points[neigh[i][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[i-1][1]][1]-points[neigh[0][1]][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
 				area = area/2
-				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				centx = (points[neigh[i][1]][0]+points[neigh[i-1][1]][0]+points[num_play-1][0])/3
-				centy = (points[neigh[i][1]][1]+points[neigh[i-1][1]][1]+points[num_play-1][1])/3
+				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				centx = (points[neigh[i][1]][0]+points[neigh[i-1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[i-1][1]][1]+points[neigh[0][1]][1])/3
 				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) + points[neigh[i][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[0][1]][0]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2)
 				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[0][1]][1]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2))
 				a = points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]) + points[neigh[i-1][1]][0]*points[neigh[0][1]][1] - points[neigh[i-1][1]][1]*points[neigh[0][1]][0]
 				xc = -bx/(2*a)
 				yc = -by/(2*a)
-				rad = dist([xc,yc],points[num_play-1])
+				rad = dist([xc,yc],points[neigh[0][1]])
 				dc = rad
-				d = dist(points[neigh[i][1]],points[num_play-1])
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
 				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
 				dn = dist(points[neigh[i][1]],points[neigh[0][1]])
 				dp = dist(points[neigh[i][1]],points[neigh[i-1][1]])
-				d3 = dist([centx,centy],points[num_play-1])
-				pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
+				d3 = dist([centx,centy],points[neigh[i][1]])
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
 
 
 				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) -2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) -2*bx*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]))/(2*a)**2
 				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) -2*by*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]))/(2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					print("MAKING Z")
-					nu1 = 0
-				nu = 0.3*nu1/dc**2 + 0.65*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0.05*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				#if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	print("MAKING Z")
+				#	nu1 = 0
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[0][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri)
 
 				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) -2*bx*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/(2*a)**2)
 				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) +2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) -2*by*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/((2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					de1 = 0
-				de = 0.3*de1/dc**2 + 0.65*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0.05*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
-				#if area>0:
-				#	nu = nu + 0.05*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
-				#	de = de - 0.05*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
-				#else:
-				#	nu = nu - 0.05*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
-				#	de = de + 0.05*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
-				beta = atan2(nu,de)
+				#if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	de1 = 0
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[0][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri)
+				if area>0:
+					nu = nu + 0*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
+				beta1 = atan2(nu,de)
+
+
+				area = (points[neigh[i][1]][0]*points[neigh[0][1]][1]-points[neigh[i][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[1][1]][1]-points[neigh[0][1]][1]*points[neigh[1][1]][0]) + (points[neigh[1][1]][0]*points[neigh[i][1]][1]-points[neigh[1][1]][1]*points[neigh[i][1]][0])
+				area = area/2
+				peri = dist(points[neigh[i][1]],points[neigh[1][1]])+dist(points[neigh[1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				centx = (points[neigh[i][1]][0]+points[neigh[1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[1][1]][1]+points[neigh[0][1]][1])/3
+				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[1][1]][0]-points[neigh[0][1]][0]) + points[neigh[i][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[1][1]][0]**2-points[neigh[1][1]][1]**2) + points[neigh[0][1]][0]*(points[neigh[1][1]][0]**2+points[neigh[1][1]][1]**2) - points[neigh[1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2)
+				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[1][1]][0]**2-points[neigh[1][1]][1]**2) + points[neigh[0][1]][1]*(points[neigh[1][1]][0]**2+points[neigh[1][1]][1]**2) - points[neigh[1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2))
+				a = points[neigh[i][1]][0]*(points[neigh[1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[1][1]][0]) + points[neigh[1][1]][0]*points[neigh[0][1]][1] - points[neigh[1][1]][1]*points[neigh[0][1]][0]
+				xc = -bx/(2*a)
+				yc = -by/(2*a)
+				rad = dist([xc,yc],points[neigh[0][1]])
+				dc = rad
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
+				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
+				dn = dist(points[neigh[i][1]],points[neigh[0][1]])
+				dp = dist(points[neigh[i][1]],points[neigh[1][1]])
+				d3 = dist([centx,centy],points[neigh[i][1]])
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
+
+
+				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[1][1]][1]-points[neigh[0][1]][1]) -2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[1][1]][0]**2-points[neigh[1][1]][1]**2) -2*bx*(points[neigh[0][1]][0]-points[neigh[1][1]][0]))/(2*a)**2
+				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[1][1]][0]-points[neigh[0][1]][0]) -2*by*(points[neigh[0][1]][0]-points[neigh[1][1]][0]))/(2*a)**2)
+				#if abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	print("MAKING Z")
+				#	nu1 = 0
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[0][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[1][1]][1])/dp)/(peri)
+
+				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[1][1]][1]-points[neigh[0][1]][1]) -2*bx*(points[neigh[1][1]][1]-points[neigh[0][1]][1]))/(2*a)**2)
+				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[1][1]][0]-points[neigh[0][1]][0]) +2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[1][1]][0]**2-points[neigh[1][1]][1]**2) -2*by*(points[neigh[1][1]][1]-points[neigh[0][1]][1]))/((2*a)**2)
+				#if abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	de1 = 0
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[0][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[1][1]][0])/dp)/(peri)
+				if area>0:
+					nu = nu + 0*(points[neigh[0][1]][0]-points[neigh[1][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[0][1]][1]-points[neigh[1][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[0][1]][0]-points[neigh[1][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[0][1]][1]-points[neigh[1][1]][1])/(2*abs(area))
+				beta2 = atan2(nu,de)
+				beta3 = beta2
+				beta = (beta3+prev[i])/2
+				prev[i] = beta3
 				#print("NUS",nu1,de1,beta)
-				if beta<0:
-					beta+=2*np.pi
+				#if beta<0:
+				#	beta+=2*np.pi
+				#if beta>2*np.pi:
+				#	beta-=2*np.pi
 
 			else:
-				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[num_play-1][1]-points[neigh[i+1][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i][1]][1]-points[num_play-1][1]*points[neigh[i][1]][0])
+				print("POS",pos2)
+				area = (points[neigh[i][1]][0]*points[neigh[i+1][1]][1]-points[neigh[i][1]][1]*points[neigh[i+1][1]][0]) + (points[neigh[i+1][1]][0]*points[neigh[0][1]][1]-points[neigh[i+1][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[i][1]][1]-points[neigh[0][1]][1]*points[neigh[i][1]][0])
 				area = area/2
-				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				centx = (points[neigh[i][1]][0]+points[neigh[i+1][1]][0]+points[num_play-1][0])/3
-				centy = (points[neigh[i][1]][1]+points[neigh[i+1][1]][1]+points[num_play-1][1])/3
-				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[num_play-1][0]-points[neigh[i+1][1]][0]) + points[neigh[i][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[num_play-1][0]**2-points[num_play-1][1]**2) + points[neigh[i+1][1]][0]*(points[num_play-1][0]**2+points[num_play-1][1]**2) - points[num_play-1][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2)
-				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[num_play-1][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[num_play-1][0]**2-points[num_play-1][1]**2) + points[neigh[i+1][1]][1]*(points[num_play-1][0]**2+points[num_play-1][1]**2) - points[num_play-1][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2))
-				a = points[neigh[i][1]][0]*(points[num_play-1][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]-points[num_play-1][0]) + points[num_play-1][0]*points[neigh[i+1][1]][1] - points[num_play-1][1]*points[neigh[i+1][1]][0]
+				peri = dist(points[neigh[i][1]],points[neigh[i+1][1]])+dist(points[neigh[i+1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) + points[neigh[i][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[i+1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][0]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2)
+				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) + points[neigh[i+1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2) - points[neigh[0][1]][1]*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2))
+				a = points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) + points[neigh[i][1]][1]*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]) + points[neigh[0][1]][0]*points[neigh[i+1][1]][1] - points[neigh[0][1]][1]*points[neigh[i+1][1]][0]
 				xc = -bx/(2*a)
 				yc = -by/(2*a)
-				rad = dist([xc,yc],points[num_play-1])
-				dc = rad
-				d = dist(points[neigh[i][1]],points[num_play-1])
+				rad = dist([xc,yc],points[neigh[0][1]])
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
 				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
+				d3 = dist([centx,centy],points[neigh[i][1]])
 				dn = dist(points[neigh[i][1]],points[neigh[i+1][1]])
-				dp = dist(points[neigh[i][1]],points[num_play-1])
-				d3 = dist([centx,centy],points[num_play-1])
-				pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
+				dp = dist(points[neigh[i][1]],points[neigh[0][1]])
+				centx = (points[neigh[i][1]][0]+points[neigh[i+1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[i+1][1]][1]+points[neigh[0][1]][1])/3
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#print("REAL",(points[neigh[i][1]][1]-points[neigh[0][1]][1]),(points[neigh[i][1]][0]-points[neigh[0][1]][0]))
+				dc = rad
 
-				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*bx*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/(2*a)**2
-				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) -2*by*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/(2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					print("MAKING Z")
-					nu1 = 0
-				nu = 0.3*nu1/dc**2 + 0.65*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0.05*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*bx*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2)
+				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) -2*by*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0]))/((2*a)**2))
 
-				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-2*a*2*points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*bx*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/(2*a)**2)
-				de1 += (points[neigh[i][1]][1]+by/(2*a))*(2*a*2*points[neigh[i][1]][0]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) +2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*by*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/(2*a)**2
-				if abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i+1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					de1 = 0
-				de = 0.3*de1/dc**2 + 0.65*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0.05*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
-				#if area>0:
-				#	nu = nu + 0.05*(points[neigh[i+1][1]][0]-points[num_play-1][0])/(2*abs(area))
-				#	de = de - 0.05*(points[neigh[i+1][1]][1]-points[num_play-1][1])/(2*abs(area))
-				#else:
-				#	nu = nu - 0.05*(points[neigh[i+1][1]][0]-points[num_play-1][0])/(2*abs(area))
-				#	de = de + 0.05*(points[neigh[i+1][1]][1]-points[num_play-1][1])/(2*abs(area))
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[i+1][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[0][1]][1])/dp)/(peri)
+
+				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]) -2*bx*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/((2*a)**2))
+				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[0][1]][0]-points[neigh[i+1][1]][0]) +2*a*(points[neigh[i+1][1]][0]**2+points[neigh[i+1][1]][1]**2-points[neigh[0][1]][0]**2-points[neigh[0][1]][1]**2) -2*by*(points[neigh[0][1]][1]-points[neigh[i+1][1]][1]))/((2*a)**2)
+
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[i+1][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[0][1]][0])/dp)/(peri)
+
+				if area>0:
+					nu = nu + 0*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[i+1][1]][0]-points[neigh[0][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[i+1][1]][1]-points[neigh[0][1]][1])/(2*abs(area))
 				beta1 = atan2(nu,de)
-				if beta1<0:
-					beta1+=2*np.pi
 
 
-				area = (points[neigh[i][1]][0]*points[num_play-1][1]-points[neigh[i][1]][1]*points[num_play-1][0]) + (points[num_play-1][0]*points[neigh[i-1][1]][1]-points[num_play-1][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
+				#if beta1<0:
+				#	beta1+=2*np.pi
+
+				area = (points[neigh[i][1]][0]*points[neigh[0][1]][1]-points[neigh[i][1]][1]*points[neigh[0][1]][0]) + (points[neigh[0][1]][0]*points[neigh[i-1][1]][1]-points[neigh[0][1]][1]*points[neigh[i-1][1]][0]) + (points[neigh[i-1][1]][0]*points[neigh[i][1]][1]-points[neigh[i-1][1]][1]*points[neigh[i][1]][0])
 				area = area/2
-				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[num_play-1])+dist(points[num_play-1],points[neigh[i][1]])
-				by = np.array([[(points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2),points[neigh[i][1]][0],1], [(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2),points[neigh[i-1][1]][0],1], [(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2),points[neigh[0][1]][0],1]])
-				by = np.linalg.det(by)
-				bx = np.array([[(points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2),points[neigh[i][1]][1],1], [(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2),points[neigh[i-1][1]][1],1], [(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2),points[neigh[0][1]][1],1]])
-				bx = np.linalg.det(bx)
-				bx = -bx
-				c = np.array([[(points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2),points[neigh[i][1]][0],points[neigh[i][1]][1]], [(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2),points[neigh[i-1][1]][0],points[neigh[i-1][1]][1]], [(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2),points[neigh[0][1]][0],points[neigh[0][1]][1]]])
-				c = np.linalg.det(c)
-				c = -c
-				a = points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[num_play-1][1]) + points[neigh[i][1]][1]*(points[num_play-1][0]-points[neigh[i-1][1]][0]) + points[neigh[i-1][1]][0]*points[num_play-1][1] - points[neigh[i-1][1]][1]*points[num_play-1][0]
+				peri = dist(points[neigh[i][1]],points[neigh[i-1][1]])+dist(points[neigh[i-1][1]],points[neigh[0][1]])+dist(points[neigh[0][1]],points[neigh[i][1]])
+				centx = (points[neigh[i][1]][0]+points[neigh[i-1][1]][0]+points[neigh[0][1]][0])/3
+				centy = (points[neigh[i][1]][1]+points[neigh[i-1][1]][1]+points[neigh[0][1]][1])/3
+				by = (points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) + points[neigh[i][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[0][1]][0]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][0]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2)
+				bx = -((points[neigh[i][1]][0]**2+points[neigh[i][1]][1]**2)*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) + points[neigh[0][1]][1]*(points[neigh[i-1][1]][0]**2+points[neigh[i-1][1]][1]**2) - points[neigh[i-1][1]][1]*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2))
+				a = points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) + points[neigh[i][1]][1]*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]) + points[neigh[i-1][1]][0]*points[neigh[0][1]][1] - points[neigh[i-1][1]][1]*points[neigh[0][1]][0]
 				xc = -bx/(2*a)
 				yc = -by/(2*a)
-				rad = sqrt(bx**2 + by**2 - 4*a*c)/(2*abs(a))
-				pygame.draw.circle(gameDisplay, (100,200,50), (int(xc),int(yc)), int(rad) , 2)
-
+				rad = dist([xc,yc],points[neigh[0][1]])
 				dc = rad
-				d = dist(points[neigh[i][1]],points[num_play-1])
+				d = dist(points[neigh[i][1]],points[neigh[0][1]])
 				d2 = dist(points[neigh[i][1]],points[neigh[pos2][1]])
-				dn = dist(points[neigh[i][1]],points[num_play-1])
+				dn = dist(points[neigh[i][1]],points[neigh[0][1]])
 				dp = dist(points[neigh[i][1]],points[neigh[i-1][1]])
-				d3 = dist([centx,centy],points[num_play-1])
-				pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
+				d3 = dist([centx,centy],points[neigh[i][1]])
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(-bx/(2*a)),int(-by/(2*a))), int(rad), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(3), 2)
+				#pygame.draw.circle(gameDisplay, (100,200,50), (int(centx),int(centy)), int(5))
+
 
 				nu1 = (points[neigh[i][1]][0]+bx/(2*a))*(-2*a*2*points[neigh[i][1]][1]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) -2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) -2*bx*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]))/(2*a)**2
 				nu1 += (points[neigh[i][1]][1]+by/(2*a))*(1+(2*a*2*points[neigh[i][1]][1]*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) -2*by*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0]))/(2*a)**2)
-				if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					print("MAKING Z")
-					nu1 = 0
-				nu = 0.3*nu1/dc**2 + 0.65*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0.05*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				#if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	print("MAKING Z")
+				#	nu1 = 0
+				nu = 0*nu1/dc**2 + 0*(points[neigh[i][1]][1]-centy)*2/(3*d3**2) + 0*(points[neigh[i][1]][1]-points[neigh[0][1]][1])/d**2 - 0*(points[neigh[i][1]][1]-points[neigh[pos2][1]][1])/d2**2
+				nu += 1*((points[neigh[i][1]][1]-points[neigh[0][1]][1])/dn + (points[neigh[i][1]][1]-points[neigh[i-1][1]][1])/dp)/(peri)
 
-				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-2*a*2*points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) -2*bx*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/(2*a)**2)
-				de1 += (points[neigh[i][1]][1]+by/(2*a))*(2*a*2*points[neigh[i][1]][0]*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) +2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) -2*by*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/(2*a)**2
-				if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
-					de1 = 0
-				de = 0.3*de1/dc**2 + 0.65*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0.05*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
-				#if area>0:
-				#	nu = nu + 0.25*(points[num_play-1][0]-points[neigh[i-1][1]][0])/(2*abs(area))
-				#	de = de - 0.25*(points[num_play-1][1]-points[neigh[i-1][1]][1])/(2*abs(area))
-				#else:
-				#	nu = nu - 0.25*(points[num_play-1][0]-points[neigh[i-1][1]][0])/(2*abs(area))
-				#	de = de + 0.25*(points[num_play-1][1]-points[neigh[i-1][1]][1])/(2*abs(area))
+				de1 = (points[neigh[i][1]][0]+bx/(2*a))*(1+ (-4*a*points[neigh[i][1]][0]*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]) -2*bx*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/(2*a)**2)
+				de1 += (points[neigh[i][1]][1]+by/(2*a))*(4*a*points[neigh[i][1]][0]*(points[neigh[i-1][1]][0]-points[neigh[0][1]][0]) +2*a*(points[neigh[0][1]][0]**2+points[neigh[0][1]][1]**2-points[neigh[i-1][1]][0]**2-points[neigh[i-1][1]][1]**2) -2*by*(points[neigh[i-1][1]][1]-points[neigh[0][1]][1]))/((2*a)**2)
+				#if abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]]))<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])-np.pi)<0.087 or abs(ang(points[neigh[i][1]],points[neigh[i-1][1]])-ang(points[neigh[i][1]],points[neigh[0][1]])+np.pi)<0.087:
+				#	de1 = 0
+				de = 0*de1/dc**2 + 0*(points[neigh[i][1]][0]-centx)*2/(3*d3**2) + 0*(points[neigh[i][1]][0]-points[neigh[0][1]][0])/d**2 - 0*(points[neigh[i][1]][0]-points[neigh[pos2][1]][0])/d2**2
+				de += 1*((points[neigh[i][1]][0]-points[neigh[0][1]][0])/dn + (points[neigh[i][1]][0]-points[neigh[i-1][1]][0])/dp)/(peri)
+				if area>0:
+					nu = nu + 0*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
+					de = de - 0*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
+				else:
+					nu = nu - 0*(points[neigh[0][1]][0]-points[neigh[i-1][1]][0])/(2*abs(area))
+					de = de + 0*(points[neigh[0][1]][1]-points[neigh[i-1][1]][1])/(2*abs(area))
 				beta2 = atan2(nu,de)
-				if beta2<0:
-					beta2+=2*np.pi
-				beta = (beta1+beta2)/2
+				#if beta2<0:
+				#	beta2+=2*np.pi
+				#print("BETA2",nu,de)
+				beta3 = (beta1+beta2)/2
+				beta = (beta3+prev[i])/2
+				print("BETA",beta3,prev[i],beta)
+				prev[i] = beta3
+
 				#pygame.draw.line(gameDisplay, (255,0,0), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(nu1/de1),points[neigh[i][1]][1]-50*sin(nu1/de1)), 3)
 
 
@@ -399,7 +522,7 @@ while not crashed:
 			#	beta = ang(points[neigh[i][1]],points[num_play-1])
 
 			print(neigh[i][1],beta)
-			pygame.draw.line(gameDisplay, (255,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
+			#pygame.draw.line(gameDisplay, (255,0,255), (points[neigh[i][1]][0],points[neigh[i][1]][1]), (points[neigh[i][1]][0]-50*cos(beta),points[neigh[i][1]][1]-50*sin(beta)), 3)
 
 			points[neigh[i][1]][0]-=cos(beta)
 			points[neigh[i][1]][1]-=sin(beta)
@@ -433,7 +556,7 @@ while not crashed:
 row = []
 row.append(time.time() - start_time)
 
-with open("5_new-2.csv","a") as f: #in write mode
+with open("3_new-2.csv","a") as f: #in write mode
 	writer = csv.writer(f)
 	writer.writerow(row)
 
@@ -506,6 +629,6 @@ plt.show()
 """
 
 
-#raw_input()
+raw_input()
 pygame.quit()
 quit()
